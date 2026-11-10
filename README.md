@@ -2,6 +2,9 @@
 
 교육기관 연수담당자를 위한 연수온 v3.2.2 안내·다운로드·튜토리얼·경험 설문 페이지입니다. `SPEC.md`를 기준으로 정적 HTML/CSS/JavaScript와 Vercel Node.js 함수만 사용합니다. 외부 폰트, 분석 스크립트, 프런트엔드 프레임워크는 없습니다. 직접 설치하는 npm 의존성은 `@vercel/blob` 하나입니다.
 
+- 공개 페이지: <https://yeonsuon.vercel.app>
+- GitHub 저장소: <https://github.com/Obito-AI/yeonsuon>
+
 ## 실행과 검증
 
 Node.js 22 이상을 사용하세요.
@@ -44,10 +47,10 @@ scripts/dev.mjs                로컬 미리보기/실제 API 어댑터
 scripts/check.mjs              의존성 추가 없는 정적 검증
 ```
 
-## Vercel 연결 설정 (배포는 별도로 수행)
+## Vercel 연결 설정
 
 1. 프로젝트는 **Other** 프레임워크로 설정합니다. 정적 출력은 `public`이며 `vercel.json`에 명시했습니다. 별도의 빌드 명령은 필요하지 않습니다. Node.js 런타임은 22 이상을 사용합니다.
-2. Vercel Storage에서 **private Blob store**를 생성하고 이 프로젝트의 필요한 환경(Preview/Production)에 연결합니다. 발급된 `BLOB_READ_WRITE_TOKEN`은 서버 환경에만 둡니다. public 저장소로 연결하면 private 업로드가 실패하도록 구성되어 있습니다.
+2. Vercel Storage의 **private Blob store** `yeonsuon-feedback`을 Production/Preview/Development에 OIDC 방식으로 연결했습니다. 정적 클라이언트에는 쓰기 자격 증명이 노출되지 않습니다. public 저장소로 바꾸면 private 업로드가 실패하도록 구성되어 있습니다.
 3. 빌드 환경 `NODEJS_HELPERS=0`은 `vercel.json`의 `build.env`에 설정되어 있습니다. Vercel의 자동 body helper를 비활성화해 원본 스트림을 직접 읽고 **32,768바이트**를 제한합니다. 이 설정을 제거하지 마세요.
 4. `VERCEL_URL`, `VERCEL_BRANCH_URL`, `VERCEL_PROJECT_PRODUCTION_URL`을 통해 현재 Preview/Production HTTPS Origin을 허용합니다. Vercel 프로젝트의 시스템 환경 변수 노출을 활성화해 두세요. 별도 커스텀 도메인/별칭이 있으면 `FEEDBACK_ALLOWED_ORIGINS=https://example.org,https://www.example.org`처럼 정확한 Origin만 추가합니다(경로·끝 슬래시 제외).
 5. Preview에서 저장을 검증할 때도 실제 데이터가 private store에 생성됩니다. 테스트 토큰/저장소를 분리하고 테스트 응답은 관리자가 대시보드에서 정리하세요.
@@ -87,4 +90,4 @@ scripts/check.mjs              의존성 추가 없는 정적 검증
 - HTML: `cba2455755fe2344b4d020cbe2f0c24b6bce12d3c125bd1265e097a7582ed0df`
 - MP4: `ee00b1f860998530f280508f7594d022a5fbdecd9224c81ebb4f2faefcdb751b`
 
-이 작업은 커밋하거나 배포하지 않습니다. 연결된 운영 저장소에 대한 실 업로드 검증은 토큰 설정 후 수행해야 합니다.
+현재 `main` 브랜치가 GitHub와 연결되어 있으며 Vercel Production에 공개 배포되어 있습니다. 출시 검증 중 실제 설문 POST, 비공개 Blob 원문 읽기, 테스트 레코드 삭제와 빈 저장소 재확인까지 수행했습니다. 상세 근거는 `docs/verification.md`에 기록합니다.
